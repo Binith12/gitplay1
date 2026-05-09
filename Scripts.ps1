@@ -420,3 +420,43 @@ gitgraph
 #We can look and still see via the reference logs
 git reflog
 
+
+
+#WB19
+#Need to be ON the branch we are performing the action on. We are rebasing branch1
+git switch branch1
+#check its clean
+git status
+#Lets rebase off main
+git rebase main
+#We will get conflicts as it replays each of the changes so each time will need to address and continue
+code jl.csv
+git add jl.csv
+git rebase --continue
+
+gitgraph
+#Cleaner path. Copy next to the rebase whiteboard to compare!
+
+#If now merge would just be a fast-forward since now a straight line from main and NOW 3-way merge
+git status
+git switch main
+git merge branch1
+#Cleanup
+git branch --merged
+git branch -d branch1
+#Note if the remote master has changes you don't have and want to base on can git pull --rebase
+
+#Interactive changes
+#Change message of last commit
+git commit --amend
+gitgraph
+#Add new files to staging but don't update the message
+git commit --ament --no-edit
+#These will all mean a new hash as we are changing history and commits are immutable!
+#Can modify in an interactive way
+#Lets go back 3 changes!
+git rebase -i HEAD~3
+#s to squash commits together, d to drop. Many other options
+
+#Protect a branch in github
+
