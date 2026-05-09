@@ -267,3 +267,156 @@ git push -u origin main
 #Look at it on github. All there. Except tags
 git push --tag
 #Much better
+
+
+gitgraph
+#Now has origin/main pointer known
+
+#Make a change directly on the github repo!
+gitgraph
+git status
+#We don't know about it
+
+#Pull down remote changes
+git pull
+#Can specify where to pull from and branch
+git pull origin main
+#Pull from all remotes
+git pull --all
+#It pulled down the changes and MERGED with a fast-forward. Remember that
+git status
+gitgraph
+
+#git pull actually is doing two things
+#To just get remote content
+git fetch
+#can be explicit
+git fetch origin main
+
+git cat-file -p origin/main
+#Content is now on our box, just not "merged"
+gitgraph
+git status
+#we can see its just ahead as a direct child of our commit so a straight line to it
+git merge
+#fast forward again
+gitgraph
+
+
+#WB14
+#Likewise if we change locally we need to push to the remote
+#As a best practice pull first (fetch and merge) to ensure all clean
+git pull
+#make a change
+code testfile.txt
+git commit -am "Updated testfile.txt"
+git status
+gitgraph
+git push
+#git push --tags
+
+
+#.gitignore
+code .gitignore #add *.log /debug/*
+git add .
+git commit -m "added ignore file"
+git push
+git status
+code test.log
+code debug\file.txt
+ls
+git status
+#Nothing to see here!
+
+
+#Branches!
+#Start fresh
+cd ..
+mkdir JLRepo
+cd JLRepo
+git init
+git status
+#we see main which remember just references a commit (that won't exist yet)
+
+code jl.csv
+git add jl.csv
+git commit -m "Initial JL roster CSV"
+#WB-15black (down)
+
+#View all branches. * is current
+git branch --list
+#View remotes
+git branch -r
+#View all (local and remote)
+git branch -a
+
+#WB15-orange
+#Create a new branch pointing to where we are called branch1
+git branch branch1
+gitgraph
+#Notice point to same commit at this time
+
+#WB15-red
+git branch --list
+git checkout branch1
+#or better move to new switch that is based around movement to separate commands
+#switch only allows a branch to be specified. Checkout allows a commit hash (so could checkout a detached head)
+git switch branch1
+git branch --list
+gitgraph
+#When we switch it also updates the staging and working directory for the checked out branch
+
+#To create and checkout in one step:
+git checkout -c branch1
+
+#To push a branch to a remote.
+#The -u sets up tracking between local and remote branch. Allows argumentless git pull in future. Will do this later
+git push -u <remote repo, e.g. origin> <branch name>
+
+#Check which branch we are on
+git branch
+
+
+git switch main
+type jl.csv
+git status
+git switch branch1
+type jl.csv
+git status
+#Notice as I switch it does that update of not only the branch but gets the stage and working to same state
+
+gitgraph
+#the branch1 is now 2 ahead but its a straight line from the main
+
+#WB16b
+#Now we want to merge the changes into main
+#Make sure everything clean
+git status
+#Move to main
+git switch main
+#we can look at the differences
+git diff main..branch1
+#If happy lets merge them. Remember we already switched to main. We are going to merge into this from branch1
+git merge branch1
+#Done. Notice was a fast-forward. Lets look at merged branches
+git branch --merged
+
+gitgraph
+
+#This would only delete locally
+#Remember to ALWAYS check it has been merged first before deleting
+git branch --merged
+git branch -d branch1
+#To delete on a remote
+git push origin --delete branch1
+
+
+#I can go backwards. In this case I'm going to move main BACK to before I made the last two changes
+gitgraph
+#Remember --hard also updates staging and working
+git reset --hard HEAD~2
+gitgraph
+#The other two commits are still out there but nothing references them. They will eventually get cleaned up
+#We can look and still see via the reference logs
+git reflog
+
