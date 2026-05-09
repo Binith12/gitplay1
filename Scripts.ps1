@@ -332,8 +332,8 @@ git status
 #Branches!
 #Start fresh
 cd ..
-mkdir JLRepo
-cd JLRepo
+mkdir bhRepo
+cd bhRepo
 git init
 git status
 #we see main which remember just references a commit (that won't exist yet)
@@ -460,3 +460,31 @@ git rebase -i HEAD~3
 
 #Protect a branch in github
 
+#Pull Request!
+#WB20
+#Create a new GitHub repo (remember, this could really be any provider)
+git remote add origin https://github.com/..../***.git (URL1)
+git push -u origin main
+
+#Now as Clark in GitHub create a fork of the repo
+#On clarks machine we could now clone OUR copy
+git clone https://github.com/****/***.git
+cd Bhrepo
+#Look at the remotes
+git remote -v
+#We may want to add Johns as an origin so we could pull down any changes they may have occured
+git remote add upstream  URL1
+git remote -v
+#Now we have Clarks origin and John's upstream
+#Could pull from John, e.g.
+git fetch upstream
+function gitgraph { git log --oneline --graph --decorate --all }
+gitgraph
+git branch branch1
+git switch branch1
+code jl.csv
+git add .
+git commit -m "Changed who the Flash is"
+
+#Push the branch to our origin
+git push -u origin branch1
