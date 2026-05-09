@@ -250,3 +250,20 @@ git cat-file -t v1.0.0
 #Note tags have to be pushed to a remote origin for them to be visible there. We will cover later
 git push --tag
 
+
+
+git remote add origin https://github.com/Binith12/gitplay1
+
+git branch -M main
+
+git push -u origin main
+
+
+git remote -v
+gitgraph
+
+#Push to the remote referened as origin
+git push -u origin main
+#Look at it on github. All there. Except tags
+git push --tag
+#Much better
